@@ -1,0 +1,28 @@
+<div (click)="$event.stopPropagation()">
+    <div>
+      <input #message type="text" name="message" value="" style="width:100%;"
+             (keyup)="handleKeyUp($event)"
+             (keydown)="handleKeyDown($event)"
+             (mouseup)="handleMouseUp($event)"
+             (touchend)="handleTouchEnd($event)"
+             (select)="handleSelect($event)"
+             (focusout)="handleFocusOut($event)"
+             (selectionchange)="handleSelectionChange($event)" />
+  
+    </div>
+    <div #div_keyboard [class]="keyboard_css" data-skinstance="simpleKeyboard" *ngIf="keyboardLayout"
+         [style.left.px]="keyboardPosition.left"
+               [style.top.px]="keyboardPosition.top">
+      <div class="hg-rows">
+        <div class="hg-row" *ngFor='let row_layout of keyboardLayout.default; let i = index'>
+          <ng-container *ngFor='let bbb of row_layout.split(" ");let j = index'>
+            <div [ngClass]="'hg-button ' + getButtonClass(bbb)" [attr.data-skbtn]="bbb" [attr.data-skbtnuid]="'default-r' + i + 'b' + j" (click)="onClick($event,bbb)">
+              <span>{{getButtonDisplayName(bbb)}}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
