@@ -378,7 +378,7 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
   //https://medium.com/@Armandotrue/broadcasting-events-in-angular-b85289a4d685
   @HostListener('experiment')
   activeFunction() {
-    alert('ddddd'); 
+    alert('dddd'); 
   }
 
 
