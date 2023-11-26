@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, Rend
 import { KeyboardLayout, getKeyboardLayout } from './interfaces/keyboards-layout/keyboard-layout';
 import { KeyboardHandlerEvent, KeyboardInput, KeyboardOptions } from './interfaces/interfaces';
 import { Position } from './interfaces/position';
-import { KeyboardEventsService } from './services/keyboard-events.service';
 import { KeyActions } from './interfaces/key-actions';
 import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events.service';
 
@@ -379,7 +378,7 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
   //https://medium.com/@Armandotrue/broadcasting-events-in-angular-b85289a4d685
   @HostListener('experiment')
   activeFunction() {
-    alert('ddd');
+    alert('dddd'); 
   }
 
 
