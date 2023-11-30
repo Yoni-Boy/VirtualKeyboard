@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {VirtualKeyboardModule} from '../../projects/virtual-keyboard/src/lib/virtual-keyboard.module'
+
 
 @NgModule({
   declarations: [
@@ -10,7 +12,8 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    VirtualKeyboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
