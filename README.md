@@ -1,6 +1,6 @@
 # YoniBoyLibraries
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
+Hello everyone,
+Our project provides a solution for displaying a virtual keyboard on the screen under the Angular platform
 
 ## Development server
 
@@ -24,4 +24,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+We would like to thank some of the fathers of the projects we are building on and for us they are the cornerstones.
+
+1. [Rob Garrison](https://github.com/Mottie/Keyboard) The father of all virtual keyboards.
+2. [Francisco Hodge](https://github.com/simple-keyboard/angular-simple-keyboard)  
