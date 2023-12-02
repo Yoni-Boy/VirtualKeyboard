@@ -1,4 +1,4 @@
-# YoniBoyLibraries
+# Angular Virtual Keyboard
 Hello everyone,
 Our project provides a solution for displaying a virtual keyboard on the screen under the Angular platform
 
