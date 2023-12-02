@@ -1403,7 +1403,7 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
    * Event Handler: MouseUp
    */
   handleMouseUp(event: KeyboardHandlerEvent): void {
-    //When We focus on the text input We wont to show the keyboard.
+    //When We focus on the text input We wont to show the virtual keyboard.
     this.keyboard_css = this.css.default + ' ' + this.css.isCurrent + ' ' + this.css.hasFocus + ' ' + this.css.keyboard;
     this.keyboardEventsService.emitEvent(this);
     //this.div_keyboard.nativeElement.hidden = false;

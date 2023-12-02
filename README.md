@@ -26,5 +26,5 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 We would like to thank some of the fathers of the projects we are building on and for us they are the cornerstones.
 
-1. [Rob Garrison](https://github.com/Mottie/Keyboard) The father of all virtual keyboards.
-2. [Francisco Hodge](https://github.com/simple-keyboard/angular-simple-keyboard)  
+1. [Rob Garrison](https://github.com/Mottie/Keyboard) The father of all virtual keyboards, With his code we     defined  the whole issue of keyboards layout and keys events. 
+2. [Francisco Hodge](https://github.com/simple-keyboard/angular-simple-keyboard) Our code is built on his code while performing analysis, modification and adaptation to the Angular platform  
