@@ -767,6 +767,9 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
         this.textBeforeAccept = this.input.value;
       }
     }
+    else if (button === "{clear}"){
+      this.input.value = "";
+    }
     else if (button === "{numpaddivide}")
       output = this.addStringAt(output, "/", ...commonParams);
     else if (button === "{numpadmultiply}")
