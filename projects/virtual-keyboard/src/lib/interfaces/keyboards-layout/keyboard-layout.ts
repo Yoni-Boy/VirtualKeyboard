@@ -1,5 +1,6 @@
 import { Hebrew } from "./hebrew";
 import { English } from "./english";
+import { Emoji } from "./emoji";
 import { Numeric, Numeric_Minus } from "./numeric";
 
 export interface KeyboardLayout {
@@ -13,6 +14,7 @@ export interface KeyboardLayout {
 //This variable contain the all keyboard layouts language 
 export const AllKeyboardsLayout = new Map<string, KeyboardLayout>([[Hebrew.lang, Hebrew],
   [English.lang, English],
+  [Emoji.lang,Emoji],
   [Numeric.lang, Numeric],
   [Numeric_Minus.lang, Numeric_Minus]]);
 //This method get language and return KeyboardLayout
