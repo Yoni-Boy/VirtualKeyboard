@@ -11,6 +11,7 @@ export const Numeric: KeyboardLayout =
   alt: [],
   getDefaultDiplay() {
     return {
+      "{empty}": " ",
       "{bksp}": "backspace",
       "{backspace}": "backspace",
       "{enter}": "< enter",
