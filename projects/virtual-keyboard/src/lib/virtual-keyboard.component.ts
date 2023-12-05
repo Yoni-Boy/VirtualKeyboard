@@ -26,7 +26,7 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
     <div class="hg-rows">
       <div class="hg-row" *ngFor='let row_layout of keyboardLayout.default; let i = index'>
         <ng-container *ngFor='let bbb of row_layout.split(" ");let j = index'>
-          <div [ngClass]="'hg-button ' + getButtonClass(bbb)" [attr.data-skbtn]="bbb" [attr.data-skbtnuid]="'default-r' + i + 'b' + j" (click)="onClick($event,bbb)">
+          <div [ngClass]="'hg-button ' + getButtonClass(bbb)+ ' ' + css.keyButton + ''  " [attr.data-skbtn]="bbb" [attr.data-skbtnuid]="'default-r' + i + 'b' + j" (click)="onClick($event,bbb)">
             <span>{{getButtonDisplayName(bbb)}}</span>
           </div>
         </ng-container>
@@ -38,6 +38,7 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
   `,
   styles: [` 
     .hg-theme-default {
+    width: 100%;
     user-select: none;
     box-sizing: border-box;
     overflow: hidden;
@@ -176,6 +177,32 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 .ui-keyboard div {
   font-size: 1.1em;
 }
+
+/* see http://nicolasgallagher.com/another-css-image-replacement-technique/ */
+.hg-button-empty span, .hg-button-empty {
+	font: 0/0 a;
+	text-shadow: none;
+	color: transparent;
+}
+
+
+
+.ui-keyboard-button {
+	height: 2em;
+	min-width: 2em;
+	margin: .1em;
+	cursor: pointer;
+	overflow: hidden;
+	line-height: 2em;
+	-moz-user-focus: ignore;
+}
+.ui-keyboard-button span {
+	padding: 0;
+	margin: 0;
+	white-space: nowrap;
+	display: inline-block;
+}
+
 
   `]
 })
@@ -378,7 +405,7 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
   //https://medium.com/@Armandotrue/broadcasting-events-in-angular-b85289a4d685
   @HostListener('experiment')
   activeFunction() {
-    alert('dddddddddddddddd'); 
+    alert('yyyyyyyyyyddddddbbbkkkk'); 
   }
 
 
@@ -766,6 +793,9 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
         }
         this.textBeforeAccept = this.input.value;
       }
+    }
+    else if (button === "{clear}"){
+      this.input.value = "";
     }
     else if (button === "{numpaddivide}")
       output = this.addStringAt(output, "/", ...commonParams);

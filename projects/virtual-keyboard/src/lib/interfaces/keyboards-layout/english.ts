@@ -26,6 +26,7 @@ export const English: KeyboardLayout =
   ],
   getDefaultDiplay() {
     return {
+      "{empty}": " ",
       "{bksp}": "backspace",
       "{backspace}": "backspace",
       "{enter}": "< enter",
