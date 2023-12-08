@@ -186,7 +186,7 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 }
 
 
-
+/*
 .ui-keyboard-button {
 	height: 2em;
 	min-width: 2em;
@@ -202,7 +202,7 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 	white-space: nowrap;
 	display: inline-block;
 }
-
+*/
 
   `]
 })
@@ -777,14 +777,19 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
           if (this.keyActions.accept != undefined) {
             this.keyActions.accept(this.input.value);
             this.textBeforeAccept = this.input.value;
+            //After WE pass the validation and We make the accept event then We need to hide the virtual keyboard
+            this.div_keyboard.nativeElement.hidden = true; 
           }
           else {
             this.textBeforeAccept = this.input.value;
+            //After WE pass the validation We need to hide the virtual keyboard
+            this.div_keyboard.nativeElement.hidden = true;
           }
         }
         else {
           //If we failed in validation process then We need to re-back to previous text
           this.input.value = this.textBeforeAccept;
+          //WE don't hide the virtual keyboard because We don't pass the validation
         }
       } 
       else { //If We don't declare validation then We skipping right to the accept method
@@ -792,6 +797,8 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
           this.keyActions.accept(this.input.value);
         }
         this.textBeforeAccept = this.input.value;
+        //After WE pass the validation and We make the accept event then We need to hide the virtual keyboard
+        this.div_keyboard.nativeElement.hidden = true;
       }
     }
     else if (button === "{clear}"){
