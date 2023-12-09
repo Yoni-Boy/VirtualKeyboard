@@ -1,26 +1,54 @@
 # Angular Virtual Keyboard
 Hello everyone,
 Our project provides a solution for displaying a virtual keyboard on the screen under the Angular platform
-
+![Alt text](288179512-e7205426-46a5-47ff-b571-670e6b6a63d6.png)
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## 📦 Installation & Usage
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 1. `npm install yon-yon-virtual-keyboard --save`
 
-## Build
+### 2.  adding yon-yon-virtual packaged in app module and import him:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+`import { VirtualKeyboardModule } from 'yon-yon-virtual-keyboard';`
 
-## Running unit tests
+`@NgModule({`
+  `declarations: [ ... ],`
+  `imports: [`
+    `CommonModule,`
+    `VirtualKeyboardModule`
+  `]`
+`})`
+`export class AppModule { }`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 3. Adding 'lib-VirtualKeyboard' element right to html code: 
 
-## Running end-to-end tests
+`<p>We don't use with any validate and accept</p>`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+`<lib-VirtualKeyboard [language]="'en'"></lib-VirtualKeyboard>`
+
+`<p>We use with validate and accept</p>`
+
+`<lib-VirtualKeyboard [language]="'he'" [validateCallBack]="validate" [acceptCallBack]="accept"></lib-VirtualKeyboard>`
+
+`<p>We use with validateNumber and accept</p>`
+
+`<lib-VirtualKeyboard [language]="'he'" [validateCallBack]="validateNumber" [acceptCallBack]="accept"></lib-VirtualKeyboard>`
+
+`<p>With numeric</p>`
+
+`<lib-VirtualKeyboard [language]="'num'" [validateCallBack]="validateNumber" [acceptCallBack]="accept"></lib-VirtualKeyboard>`
+
+`<p>Custom Virtual Keyboard</p>`
+
+`<lib-VirtualKeyboard [keyboardLayout]="custom_Keyboard"></lib-VirtualKeyboard>`
+
+`<p>emoticons virtual keyboard</p>`
+
+`<lib-VirtualKeyboard [language]="'emo'"></lib-VirtualKeyboard>`
+
 
 ## Further help
 
