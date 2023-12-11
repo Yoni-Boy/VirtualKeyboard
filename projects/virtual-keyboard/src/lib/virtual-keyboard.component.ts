@@ -1451,9 +1451,12 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
     //this.div_keyboard.nativeElement.offsetWidth --> The Width;
     //this.div_keyboard.nativeElement.offsetHeight --> The height;
 
+    this.keyboardPosition.top = this.div_keyboard.nativeElement.getBoundingClientRect().y;
+    this.keyboardPosition.left = this.div_keyboard.nativeElement.getBoundingClientRect().x;
 
-    this.keyboardPosition.top = this.div_keyboard.nativeElement.offsetTop + 5;
-    this.keyboardPosition.left = this.div_keyboard.nativeElement.offsetLeft;
+    
+    //this.keyboardPosition.top = this.div_keyboard.nativeElement.offsetTop + 5;
+    //this.keyboardPosition.left = this.div_keyboard.nativeElement.offsetLeft;
 
 
   }

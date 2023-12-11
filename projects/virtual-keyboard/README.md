@@ -1,24 +1,58 @@
-# VirtualKeyboard
+# Angular Virtual Keyboard
+Hello everyone,
+Our project provides a solution for displaying a virtual keyboard on the screen under the Angular platform
+![Alt text](288179512-e7205426-46a5-47ff-b571-670e6b6a63d6.png)
+## Development server
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## 📦 Installation & Usage
 
-Run `ng generate component component-name --project VirtualKeyboard` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project VirtualKeyboard`.
-> Note: Don't forget to add `--project VirtualKeyboard` or else it will be added to the default project in your `angular.json` file. 
+### 1. `npm install yon-yon-virtual-keyboard --save`
 
-## Build
+### 2.  adding yon-yon-virtual packaged in app module and import him:
 
-Run `ng build VirtualKeyboard` to build the project. The build artifacts will be stored in the `dist/` directory.
+`import { VirtualKeyboardModule } from 'yon-yon-virtual-keyboard';`
 
-## Publishing
+`@NgModule({`
+  `declarations: [ ... ],`
+  `imports: [`
+    `CommonModule,`
+    `VirtualKeyboardModule`
+  `]`
+`})`
+`export class AppModule { }`
 
-After building your library with `ng build VirtualKeyboard`, go to the dist folder `cd dist/virtual-keyboard` and run `npm publish`.
+### 3. Adding 'lib-VirtualKeyboard' element right to html code: 
 
-## Running unit tests
+`<p>We don't use with any validate and accept</p>`
 
-Run `ng test VirtualKeyboard` to execute the unit tests via [Karma](https://karma-runner.github.io).
+`<lib-VirtualKeyboard [language]="'en'"></lib-VirtualKeyboard>`
+
+`<p>We use with validate and accept</p>`
+
+`<lib-VirtualKeyboard [language]="'he'" [validateCallBack]="validate" [acceptCallBack]="accept"></lib-VirtualKeyboard>`
+
+`<p>We use with validateNumber and accept</p>`
+
+`<lib-VirtualKeyboard [language]="'he'" [validateCallBack]="validateNumber" [acceptCallBack]="accept"></lib-VirtualKeyboard>`
+
+`<p>With numeric</p>`
+
+`<lib-VirtualKeyboard [language]="'num'" [validateCallBack]="validateNumber" [acceptCallBack]="accept"></lib-VirtualKeyboard>`
+
+`<p>Custom Virtual Keyboard</p>`
+
+`<lib-VirtualKeyboard [keyboardLayout]="custom_Keyboard"></lib-VirtualKeyboard>`
+
+`<p>emoticons virtual keyboard</p>`
+
+`<lib-VirtualKeyboard [language]="'emo'"></lib-VirtualKeyboard>`
+
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+We would like to thank some of the fathers of the projects we are building on and for us they are the cornerstones.
+
+1. [Rob Garrison](https://github.com/Mottie/Keyboard) The father of all virtual keyboards, With his code we     defined  the whole issue of keyboards layout and keys events. 
+2. [Francisco Hodge](https://github.com/simple-keyboard/angular-simple-keyboard) Our code is built on his code while performing analysis, modification and adaptation to the Angular platform  
