@@ -1450,11 +1450,16 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
     //this.div_keyboard.nativeElement.offsetTop --> Y value;
     //this.div_keyboard.nativeElement.offsetWidth --> The Width;
     //this.div_keyboard.nativeElement.offsetHeight --> The height;
-
-    this.keyboardPosition.top = this.div_keyboard.nativeElement.getBoundingClientRect().y;
-    this.keyboardPosition.left = this.div_keyboard.nativeElement.getBoundingClientRect().x;
-
     
+    this.keyboardPosition.top = this._input.nativeElement.getBoundingClientRect().y +(this._input.nativeElement.getBoundingClientRect().bottom - this._input.nativeElement.getBoundingClientRect().y ) ;
+    this.keyboardPosition.left = this._input.nativeElement.getBoundingClientRect().x;
+
+
+    //this.keyboardPosition.top = this.div_keyboard.nativeElement.getBoundingClientRect().y;
+    //this.keyboardPosition.left = this.div_keyboard.nativeElement.getBoundingClientRect().x;
+
+    //when We build our Virtual keyboard in dynamic html page like ngFor... We need to use with  'getBoundingClientRect'
+    //Instead of offsetTop/offsetLeft    
     //this.keyboardPosition.top = this.div_keyboard.nativeElement.offsetTop + 5;
     //this.keyboardPosition.left = this.div_keyboard.nativeElement.offsetLeft;
 
