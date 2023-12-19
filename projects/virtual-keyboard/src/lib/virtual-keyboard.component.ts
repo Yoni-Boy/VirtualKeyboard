@@ -21,8 +21,8 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 
   </div>
   <div #div_keyboard [class]="keyboard_css" data-skinstance="simpleKeyboard" *ngIf="keyboardLayout"
-       [style.left.px]="keyboardPosition.left"
-             [style.top.px]="keyboardPosition.top">
+       [style.x.px]="keyboardPosition.left"
+             [style.y.px]="keyboardPosition.top">
     <div class="hg-rows">
       <div class="hg-row" *ngFor='let row_layout of keyboardLayout.default; let i = index'>
         <ng-container *ngFor='let bbb of row_layout.split(" ");let j = index'>
@@ -38,7 +38,7 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
   `,
   styles: [` 
     .hg-theme-default {
-    width: 100%;
+    /*width: 100%;*/
     user-select: none;
     box-sizing: border-box;
     overflow: hidden;
@@ -162,8 +162,8 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
   text-align: center;
   padding: .3em;
   position: absolute;
-  left: 0;
-  top: 0;
+  /*left: 0;
+  top: 0;*/
   z-index: 16000;
   /* see issue #484 */
   -ms-touch-action: manipulation;
@@ -320,6 +320,7 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
       //}
     };
     this.keyboard_css = this.css.default;
+    
     this.keyboardPosition = {
       left: 0,
       top: 0
@@ -1453,7 +1454,7 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
     
     this.keyboardPosition.top = this._input.nativeElement.getBoundingClientRect().y +(this._input.nativeElement.getBoundingClientRect().bottom - this._input.nativeElement.getBoundingClientRect().y ) ;
     this.keyboardPosition.left = this._input.nativeElement.getBoundingClientRect().x;
-
+    console.log("datas = ", this._input.nativeElement.getBoundingClientRect());
 
     //this.keyboardPosition.top = this.div_keyboard.nativeElement.getBoundingClientRect().y;
     //this.keyboardPosition.left = this.div_keyboard.nativeElement.getBoundingClientRect().x;
