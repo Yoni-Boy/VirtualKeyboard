@@ -217,7 +217,12 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
   @ViewChild('div_keyboard') div_keyboard!: ElementRef<HTMLDivElement>;
   //This for the keyboard position
   keyboardPosition!: Position;
-
+  //This variable keeps the window size.
+  //With this variable We will know how to position the virtual keyboard, 
+  //For example if the input text is located in the end of the window, We wont to prevent display the virtual keyboard under the input text element,
+  //Instead We wont to display the virtual keyboard above the input text filed  
+  public getScreenWidth: any;
+  public getScreenHeight: any;
   //this variable responsible declare for us if we will show the shift keyboard or the default keyboard
   //This variable represent the state keyboard
   isShiftOn: boolean = false;
@@ -353,6 +358,12 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
       if (this.keyboardLayout?.default != undefined)
         this.defaultKeyboardLayout = this.keyboardLayout.default;
     }
+
+    //We initialize the variable of the window size
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+
+
     // 👇️ const input: HTMLInputElement | null
     //this.input = <HTMLInputElement>this._input.nativeElement;
     //this.input = document.getElementById('message') as HTMLInputElement;
@@ -398,6 +409,14 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
     //In the default We wont to hide the keyboard, And When We focus on the text input We wont to show the keyboard.
     this.div_keyboard.nativeElement.hidden = true;
   }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    //After we change the window size, We wont to keeps the new size 
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+  }
+
 
   //In this code We try to declare event and notify the component when this event send...
   //But how We calling to this  event??? We wont to hide the all keyboard when We focus on some specific keyboard...
