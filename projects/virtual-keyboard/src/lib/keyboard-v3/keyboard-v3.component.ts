@@ -128,8 +128,8 @@ export class KeyboardV3Component implements OnInit, AfterViewInit {
     };
     this.keyboard_css = this.css.default;
     this.keyboardPosition = {
-      left: 0,
-      top: 0
+      x: 0,
+      y: 0
     }
   }
   ngAfterViewInit(): void {
@@ -1249,8 +1249,8 @@ export class KeyboardV3Component implements OnInit, AfterViewInit {
     //this.div_keyboard.nativeElement.offsetHeight --> The height;
 
 
-    this.keyboardPosition.top = this.div_keyboard.nativeElement.offsetTop + 5;
-    this.keyboardPosition.left = this.div_keyboard.nativeElement.offsetLeft;
+    this.keyboardPosition.y = this.div_keyboard.nativeElement.offsetTop + 5;
+    this.keyboardPosition.x = this.div_keyboard.nativeElement.offsetLeft;
 
 
   }
