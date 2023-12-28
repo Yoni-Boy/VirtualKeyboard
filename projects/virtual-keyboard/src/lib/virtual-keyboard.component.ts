@@ -21,8 +21,8 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 
   </div>
   <div #div_keyboard [class]="keyboard_css" data-skinstance="simpleKeyboard" *ngIf="keyboardLayout"
-       [style.left.px]="keyboardPosition.x"
-             [style.top.px]="keyboardPosition.y">
+       [style.x.px]="keyboardPosition.x"
+             [style.y.px]="keyboardPosition.y">
     <div class="hg-rows">
       <div class="hg-row" *ngFor='let row_layout of keyboardLayout.default; let i = index'>
         <ng-container *ngFor='let bbb of row_layout.split(" ");let j = index'>
@@ -209,8 +209,14 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
   @Input() keyboardLayout: KeyboardLayout | undefined;
   @Input() language: string | undefined;
+  //This variable declare the virtual keyboard id. 
+  //With this parameter we notify the 'acceptWithIDCallBack' with this id param.
+  //For example when we declare the call back method at the father, and we click on 'accept' button then we will 
+  //Execute this method with this parameter. With this param We can know who is element    
+  @Input() vk_id: string | undefined;
   @Input() validateCallBack!: (args: string) => boolean;
   @Input() acceptCallBack!: (args: string) => boolean | void;
+  @Input() acceptWithIDCallBack!: (args: string) => any | void;
   //This value contain the text input  
   @ViewChild('message') _input!: ElementRef<HTMLInputElement>;
   //This value contain the virtual keyboard div 
@@ -343,7 +349,8 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
 
     this.keyActions = {
       validate: this.validateCallBack,
-      accept: this.acceptCallBack
+      accept: this.acceptCallBack,
+      accept_with_id: this.acceptWithIDCallBack
     };
 
   }
@@ -806,6 +813,9 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
             //After WE pass the validation We need to hide the virtual keyboard
             this.div_keyboard.nativeElement.hidden = true;
           }
+          if (this.keyActions.accept_with_id != undefined &&  this.vk_id != undefined) 
+            this.keyActions.accept_with_id(this.vk_id);
+          
         }
         else {
           //If we failed in validation process then We need to re-back to previous text
@@ -817,6 +827,9 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
         if (this.keyActions.accept != undefined) {
           this.keyActions.accept(this.input.value);
         }
+        if (this.keyActions.accept_with_id != undefined &&  this.vk_id != undefined) 
+          this.keyActions.accept_with_id(this.vk_id);
+          
         this.textBeforeAccept = this.input.value;
         //After WE pass the validation and We make the accept event then We need to hide the virtual keyboard
         this.div_keyboard.nativeElement.hidden = true;

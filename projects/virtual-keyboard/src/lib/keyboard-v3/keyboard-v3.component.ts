@@ -18,6 +18,7 @@ export class KeyboardV3Component implements OnInit, AfterViewInit {
   @Input() language: string | undefined;
   @Input() validateCallBack!: (args: string) => boolean;
   @Input() acceptCallBack!: (args: string) => boolean | void;
+  @Input() acceptWithIDCallBack!: (args: string) => any | void;
   //This value contain the text input  
   @ViewChild('message') _input!: ElementRef<HTMLInputElement>;
   //This value contain the virtual keyboard div 
@@ -144,7 +145,8 @@ export class KeyboardV3Component implements OnInit, AfterViewInit {
 
     this.keyActions = {
       validate: this.validateCallBack,
-      accept: this.acceptCallBack
+      accept: this.acceptCallBack,
+      accept_with_id: this.acceptWithIDCallBack
     };
 
   }

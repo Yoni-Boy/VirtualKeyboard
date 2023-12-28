@@ -90,7 +90,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     alert('accept:' + value);
     
   }
-
+  public acceptWithVK_ID(vk_id: string){
+    alert('id:' + vk_id);
+    
+  }
   public validateNumber(value: string): boolean {
     if (!isNaN(parseFloat(String(value))) && isFinite(Number(value)))
       return true;
