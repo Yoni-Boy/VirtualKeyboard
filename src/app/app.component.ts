@@ -81,6 +81,17 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
         
       });
+
+
+      this.keyboardEventsService.getAcceptEvent().subscribe(vk => {
+        if (vk != null) {
+          //We show the only focus input keyboard component 
+          alert(vk.vk_id);
+          alert(vk.input.value);
+        } 
+      });
+
+
   }
   public validate(value: string): boolean {
     
@@ -90,8 +101,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     alert('accept:' + value);
     
   }
-  public acceptWithVK_ID(vk_id: string){
-    alert('id:' + vk_id);
+  public acceptWithVK_ID(vk_id: string,text:string){
+    alert('id:' + vk_id + ',text:' + text);
     
   }
   public validateNumber(value: string): boolean {
