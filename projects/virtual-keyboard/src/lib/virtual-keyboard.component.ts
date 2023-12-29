@@ -216,7 +216,7 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
   @Input() vk_id: string | undefined;
   @Input() validateCallBack!: (args: string) => boolean;
   @Input() acceptCallBack!: (args: string) => boolean | void;
-  @Input() acceptWithIDCallBack!: (args: string) => any | void;
+  @Input() acceptWithIDCallBack!: (vk_id: string,text: string) => any | void;
   //This value contain the text input  
   @ViewChild('message') _input!: ElementRef<HTMLInputElement>;
   //This value contain the virtual keyboard div 
@@ -813,9 +813,11 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
             //After WE pass the validation We need to hide the virtual keyboard
             this.div_keyboard.nativeElement.hidden = true;
           }
-          if (this.keyActions.accept_with_id != undefined &&  this.vk_id != undefined) 
-            this.keyActions.accept_with_id(this.vk_id);
-          
+          if (this.keyActions.accept_with_id != undefined &&  this.vk_id != undefined){ 
+            this.keyActions.accept_with_id(this.vk_id,this.input.value);
+          }
+
+          this.keyboardEventsService.acceptEvent(this);            
         }
         else {
           //If we failed in validation process then We need to re-back to previous text
@@ -827,12 +829,13 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
         if (this.keyActions.accept != undefined) {
           this.keyActions.accept(this.input.value);
         }
-        if (this.keyActions.accept_with_id != undefined &&  this.vk_id != undefined) 
-          this.keyActions.accept_with_id(this.vk_id);
-          
+        if (this.keyActions.accept_with_id != undefined &&  this.vk_id != undefined) {
+        this.keyActions.accept_with_id(this.vk_id,this.input.value);
+        }
         this.textBeforeAccept = this.input.value;
         //After WE pass the validation and We make the accept event then We need to hide the virtual keyboard
         this.div_keyboard.nativeElement.hidden = true;
+        this.keyboardEventsService.acceptEvent(this);            
       }
     }
     else if (button === "{clear}"){
