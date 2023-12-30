@@ -8,4 +8,8 @@
 <lib-VirtualKeyboard [language]="'num'" [validateCallBack]="validateNumber" [acceptCallBack]="accept"></lib-VirtualKeyboard>
 <p>Custom Virtual Keyboard</p>
 <lib-VirtualKeyboard [keyboardLayout]="custom_Keyboard"></lib-VirtualKeyboard>
+<p>emoticons virtual keyboard</p>
+<lib-VirtualKeyboard [language]="'emo'"></lib-VirtualKeyboard>
+<p>VK with accept event that notify vk ID </p>
+<lib-VirtualKeyboard [language]="'en'" [acceptWithIDCallBack]="acceptWithVK_ID" [vk_id]="'007'"></lib-VirtualKeyboard>
 <router-outlet></router-outlet>

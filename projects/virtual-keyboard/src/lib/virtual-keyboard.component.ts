@@ -21,8 +21,8 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 
   </div>
   <div #div_keyboard [class]="keyboard_css" data-skinstance="simpleKeyboard" *ngIf="keyboardLayout"
-       [style.left.px]="keyboardPosition.left"
-             [style.top.px]="keyboardPosition.top">
+       [style.x.px]="keyboardPosition.x"
+             [style.y.px]="keyboardPosition.y">
     <div class="hg-rows">
       <div class="hg-row" *ngFor='let row_layout of keyboardLayout.default; let i = index'>
         <ng-container *ngFor='let bbb of row_layout.split(" ");let j = index'>
@@ -38,7 +38,7 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
   `,
   styles: [` 
     .hg-theme-default {
-    width: 100%;
+    /*width: 100%;*/
     user-select: none;
     box-sizing: border-box;
     overflow: hidden;
@@ -162,8 +162,8 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
   text-align: center;
   padding: .3em;
   position: absolute;
-  left: 0;
-  top: 0;
+  /*left: 0;
+  top: 0;*/
   z-index: 16000;
   /* see issue #484 */
   -ms-touch-action: manipulation;
@@ -186,7 +186,7 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 }
 
 
-
+/*
 .ui-keyboard-button {
 	height: 2em;
 	min-width: 2em;
@@ -202,22 +202,33 @@ import { VirtualKeyboardEventsService } from './services/virtual-keyboard-events
 	white-space: nowrap;
 	display: inline-block;
 }
-
+*/
 
   `]
 })
 export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
   @Input() keyboardLayout: KeyboardLayout | undefined;
   @Input() language: string | undefined;
+  //This variable declare the virtual keyboard id. 
+  //With this parameter we notify the 'acceptWithIDCallBack' with this id param.
+  //For example when we declare the call back method at the father, and we click on 'accept' button then we will 
+  //Execute this method with this parameter. With this param We can know who is element    
+  @Input() vk_id: string | undefined;
   @Input() validateCallBack!: (args: string) => boolean;
   @Input() acceptCallBack!: (args: string) => boolean | void;
+  @Input() acceptWithIDCallBack!: (vk_id: string,text: string) => any | void;
   //This value contain the text input  
   @ViewChild('message') _input!: ElementRef<HTMLInputElement>;
   //This value contain the virtual keyboard div 
   @ViewChild('div_keyboard') div_keyboard!: ElementRef<HTMLDivElement>;
   //This for the keyboard position
   keyboardPosition!: Position;
-
+  //This variable keeps the window size.
+  //With this variable We will know how to position the virtual keyboard, 
+  //For example if the input text is located in the end of the window, We wont to prevent display the virtual keyboard under the input text element,
+  //Instead We wont to display the virtual keyboard above the input text filed  
+  public getScreenWidth: any;
+  public getScreenHeight: any;
   //this variable responsible declare for us if we will show the shift keyboard or the default keyboard
   //This variable represent the state keyboard
   isShiftOn: boolean = false;
@@ -320,9 +331,10 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
       //}
     };
     this.keyboard_css = this.css.default;
+    
     this.keyboardPosition = {
-      left: 0,
-      top: 0
+      x: 0,
+      y: 0
     }
   }
   ngAfterViewInit(): void {
@@ -337,7 +349,8 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
 
     this.keyActions = {
       validate: this.validateCallBack,
-      accept: this.acceptCallBack
+      accept: this.acceptCallBack,
+      accept_with_id: this.acceptWithIDCallBack
     };
 
   }
@@ -352,6 +365,12 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
       if (this.keyboardLayout?.default != undefined)
         this.defaultKeyboardLayout = this.keyboardLayout.default;
     }
+
+    //We initialize the variable of the window size
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+
+
     // 👇️ const input: HTMLInputElement | null
     //this.input = <HTMLInputElement>this._input.nativeElement;
     //this.input = document.getElementById('message') as HTMLInputElement;
@@ -397,6 +416,15 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
     //In the default We wont to hide the keyboard, And When We focus on the text input We wont to show the keyboard.
     this.div_keyboard.nativeElement.hidden = true;
   }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    //After we change the window size, We wont to keeps the new size 
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+    //console.log("Width/Height = ", this.getScreenWidth + ',' + this.getScreenHeight);
+  }
+
 
   //In this code We try to declare event and notify the component when this event send...
   //But how We calling to this  event??? We wont to hide the all keyboard when We focus on some specific keyboard...
@@ -777,21 +805,37 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
           if (this.keyActions.accept != undefined) {
             this.keyActions.accept(this.input.value);
             this.textBeforeAccept = this.input.value;
+            //After WE pass the validation and We make the accept event then We need to hide the virtual keyboard
+            this.div_keyboard.nativeElement.hidden = true; 
           }
           else {
             this.textBeforeAccept = this.input.value;
+            //After WE pass the validation We need to hide the virtual keyboard
+            this.div_keyboard.nativeElement.hidden = true;
           }
+          if (this.keyActions.accept_with_id != undefined &&  this.vk_id != undefined){ 
+            this.keyActions.accept_with_id(this.vk_id,this.input.value);
+          }
+
+          this.keyboardEventsService.acceptEvent(this);            
         }
         else {
           //If we failed in validation process then We need to re-back to previous text
           this.input.value = this.textBeforeAccept;
+          //WE don't hide the virtual keyboard because We don't pass the validation
         }
       } 
       else { //If We don't declare validation then We skipping right to the accept method
         if (this.keyActions.accept != undefined) {
           this.keyActions.accept(this.input.value);
         }
+        if (this.keyActions.accept_with_id != undefined &&  this.vk_id != undefined) {
+        this.keyActions.accept_with_id(this.vk_id,this.input.value);
+        }
         this.textBeforeAccept = this.input.value;
+        //After WE pass the validation and We make the accept event then We need to hide the virtual keyboard
+        this.div_keyboard.nativeElement.hidden = true;
+        this.keyboardEventsService.acceptEvent(this);            
       }
     }
     else if (button === "{clear}"){
@@ -1443,10 +1487,24 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
     //this.div_keyboard.nativeElement.offsetTop --> Y value;
     //this.div_keyboard.nativeElement.offsetWidth --> The Width;
     //this.div_keyboard.nativeElement.offsetHeight --> The height;
+    
+    this.calculationPosition();
+
+    //this.keyboardPosition.y = this._input.nativeElement.getBoundingClientRect().y +(this._input.nativeElement.getBoundingClientRect().bottom - this._input.nativeElement.getBoundingClientRect().y ) ;
+    //this.keyboardPosition.x = this._input.nativeElement.getBoundingClientRect().x;
+    
 
 
-    this.keyboardPosition.top = this.div_keyboard.nativeElement.offsetTop + 5;
-    this.keyboardPosition.left = this.div_keyboard.nativeElement.offsetLeft;
+
+    //console.log("datas = ", this._input.nativeElement.getBoundingClientRect());
+
+    //this.keyboardPosition.top = this.div_keyboard.nativeElement.getBoundingClientRect().y;
+    //this.keyboardPosition.left = this.div_keyboard.nativeElement.getBoundingClientRect().x;
+
+    //when We build our Virtual keyboard in dynamic html page like ngFor... We need to use with  'getBoundingClientRect'
+    //Instead of offsetTop/offsetLeft    
+    //this.keyboardPosition.top = this.div_keyboard.nativeElement.offsetTop + 5;
+    //this.keyboardPosition.left = this.div_keyboard.nativeElement.offsetLeft;
 
 
   }
@@ -1488,9 +1546,86 @@ export class VirtualKeyboardComponent implements OnInit, AfterViewInit {
 
 
 
+  /**
+   * This method responsible to calculate the virtual keyboard location.
+   * For example: If We click on the input text element We wont to display the virtual keyboard near to input text 
+   * Sometimes the keyboard position will appear below the text and sometimes above, sometimes on the right and sometimes on the left
+   * Its all depend in the input text element position on the page.  
+   */
+   calculationPosition(): void {
+    console.log("Width/Height = ", this.getScreenWidth + ',' + this.getScreenHeight);
+    console.log("VK_Width/VK_Height = ", this.getVK_Width() + ',' + this.getVK_Height());
+
+    //By the default, in the regular state We show the virtual keyboard below the input text 
+   if((this._input.nativeElement.getBoundingClientRect().y + this._input.nativeElement.getBoundingClientRect().height + this.getVK_Height()) <= this.getScreenHeight)
+   { 
+      this.keyboardPosition.y = this._input.nativeElement.getBoundingClientRect().y + this._input.nativeElement.getBoundingClientRect().height;
+      //alert('1:' + this.keyboardPosition.y);
+    }
+   else //We show the virtual keyboard above the input text 
+   { 
+      this.keyboardPosition.y = this._input.nativeElement.getBoundingClientRect().y - this.getVK_Height();
+      //alert('2:' + this.keyboardPosition.y);
+   } 
+   //After We located the Y coordinate We need to calculate the X coordinate. 
+   if((this._input.nativeElement.getBoundingClientRect().x + this.getVK_Width()) < this.getScreenWidth)
+   {
+    this.keyboardPosition.x = this._input.nativeElement.getBoundingClientRect().x;
+   }
+   else //We show the virtual keyboard above the input text 
+    {
+      this.keyboardPosition.x =  this._input.nativeElement.getBoundingClientRect().x - this.getVK_Width();
+    }
+  }
+  /**
+   * This method responsible to return the virtual keyboard y1  
+   * !!! unused, We can delete this method
+   */
+  getVK_Y1(): number {
+    return this.div_keyboard.nativeElement.getBoundingClientRect().y;
+  }
+    /**
+   * This method responsible to return the virtual keyboard x1 
+   * !!! unused, We can delete this method 
+   */
+    getVK_X1(): number {
+      return this.div_keyboard.nativeElement.getBoundingClientRect().x;
+    }
+
+
+    /**
+     * This method responsible to return the virtual keyboard y2 
+     * !!! unused, We can delete this method 
+     */
+  getVK_Y2(): number {
+    return this.div_keyboard.nativeElement.getBoundingClientRect().y + this.div_keyboard.nativeElement.getBoundingClientRect().height;
+  }
+  /**
+ * This method responsible to return the virtual keyboard x2  
+ * !!! unused, We can delete this method
+ */
+  getVK_X2(): number {
+    return this.div_keyboard.nativeElement.getBoundingClientRect().x + this.div_keyboard.nativeElement.getBoundingClientRect().width;
+  }
+
+
+  /**
+   * This method responsible to return the virtual keyboard width  
+   */
+  getVK_Width(): number {
+    return this.div_keyboard.nativeElement.getBoundingClientRect().width;
+  }
+  /**
+   * This method responsible to return the virtual keyboard height  
+   */
+  getVK_Height(): number {
+    return this.div_keyboard.nativeElement.getBoundingClientRect().height;
+  }
+
 
 
 	// Action key function list
+  //Instead to use with this object, We create new interface 'KeyActions' that need to implementation the all key actions 
 	keyaction = {
     accept: function () {
       //base.close(true); // same as base.accept();
